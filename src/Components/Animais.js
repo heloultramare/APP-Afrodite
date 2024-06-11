@@ -1,28 +1,22 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 
-export default function Produto({ title, image, description, price, category, rating }) {
+export default function Anmais({ nome, image }) {
     return (
         <View style={css.container}>
-            <View style={css.boxTitle}>
-                <View style={css.circleAvatar}></View>
-                <Text style={css.title}>{title}</Text>
-            </View>
-            <View style={css.boxImage}>
-                <Image source={{ uri: image }} style={css.imagem}/>
-            </View>
-            <View style={css.descriptionBox}>
-                <Text style={css.descriptionText}>{description}</Text>
-            </View>
-            <View style={css.categoryBox}>
-                <Text style={css.categoryText}>{category}</Text>
-            </View>
             
+            <View style={css.boxImage}>
+                <Image source={{ uri: `data:image/jpeg;base64,${image}` }} style={css.imagem}/>
+            </View>
+            <View style={css.boxTitle}>
+                <Text style={css.title}>{nome}</Text>
+            </View>
         </View>
     )
 }
 const css = StyleSheet.create({
     container: {
+        minWidth: "100%",
         width: "100%",
         height: 600
     },
@@ -30,10 +24,10 @@ const css = StyleSheet.create({
         width: "100%",
         display: "flex",
         flexDirection: "row",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         alignItems: "center",
-        marginBottom: 10,
-        paddingLeft: 5
+        marginTop: 20,
+        paddingLeft: 5,
     },
     circleAvatar: {
         width: 30,
@@ -44,7 +38,8 @@ const css = StyleSheet.create({
     },
     title: {
         color: "white",
-        textAlign: "center"
+        textAlign: "center",
+        fontSize: 20
     },
     boxImage: {
         width: "100%",

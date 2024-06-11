@@ -1,43 +1,52 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Produto from '../Components/Produto';
-import Stories from '../Components/Stories';
+import { useFocusEffect } from '@react-navigation/native';
+import Animais from '../Components/Animais';
 
 
 export default function Home() {
 
-  const [produtos, setProdutos] = useState([]);
+  const [animals, setAnimals] = useState([]);
 
-  async function getProdutos() {
-    await fetch('https://fakestoreapi.com/products', {
+  async function getAnimals() {
+    await fetch('http://10.139.75.15:5251/api/Animal/GetAllAnimal', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
       }
     })
       .then(res => res.json())
-      .then(json => setProdutos(json))
+      .then(json => setAnimals( json ) )
       .catch(err => console.log(err))
   }
 
   useEffect(() => {
-    getProdutos();
+    getAnimals();
   }, [])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getAnimals();
+    }, [])
+  );
 
   return (
     <View style={css.container}>
-      {produtos ?
+      {animals.length > 0 ?
         <>
-          <Stories produtos={produtos} />
           <FlatList
-            data={produtos}
-            renderItem={({ item }) => <Produto title={item.title} price={item.price} image={item.image} description={item.description} category={item.category} rating={item.rating} />}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{ height: (produtos.length * 600) + 110 }}
+            data={animals}
+            renderItem={({ item }) => <Animais nome={item.animalNome} image={item.animalFoto} />}
+            keyExtractor={(item) => item.animalId}
+            contentContainerStyle={{ height: (animals.length * 600) + 110 }}
           />
         </>
         :
-        <Text style={css.text}>Carregando produtos...</Text>
+        ( animals.length == 0 ? 
+            <Text style={css.text}>Sem animais para exibir</Text>
+          :
+            <ActivityIndicator size="large" color="#3097ff" />
+        )
       }
     </View>
   )

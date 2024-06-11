@@ -6,12 +6,8 @@ import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 
 import Home from '../Pages/Home';
-import Busca from '../Pages/Busca';
 import Login from '../Pages/Login';
-import Videos from '../Pages/Videos';
-import Perfil from '../Pages/Perfil';
-import Inserir from '../Pages/Inserir';
-
+import Foto from '../Pages/Foto';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +37,15 @@ export default function Rotas() {
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="home" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Foto"
+                    component={Foto}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
                         ),
                     }}
                 />
