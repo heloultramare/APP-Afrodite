@@ -1,19 +1,15 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
+import Cadastro from './Cadastro';
 
-export default function Login() {
+export default function Login({setCadastro, setLogado}) {
 
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
+    const [email, setEmail] = useState();
+    const [senha, setSenha] = useState();
 
     const { Login, error } = useContext(AuthContext);
-
-    function RealizaLogin() {
-       Login( email, senha );
-    }
-
-
+    
     return (
         <View style={css.View}>
         <View style={css.header}></View>
@@ -49,7 +45,11 @@ export default function Login() {
 
         <View style={css.flex}>
             <Text style={css.textesqueceu}>Não tem cadastro?</Text>
-            <Text style={css.textesqueceu2}>CADASTRAR</Text>
+            <View>
+        <TouchableOpacity onPress={() => { setCadastro( true ) }}>
+                <Text style={css.textesqueceu2}>CADASTRAR</Text>
+            </TouchableOpacity>
+        </View>
         </View>
     </View>
   )

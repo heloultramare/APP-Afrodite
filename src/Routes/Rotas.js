@@ -8,21 +8,22 @@ import { AuthContext } from '../Context/AuthContext';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
+import Cadastro from '../Pages/Cadastro';
 
 const Tab = createBottomTabNavigator();
 
 export default function Rotas() {
 
     const[logado, setLogado] = useState(false);
-  const[cadastro, setCadastro] = useState(false);
+    const[cadastro, setCadastro] = useState(false);
 
-  if(logado == false) {
-    return(<Login setLogado={setLogado} setCadastro={setCadastro}/>)
-  }
+    if( !logado && !cadastro ) {
+        return(<Login setCadastro={setCadastro}/>)
+    }
   
-  if(cadastro) {
-    return(<Cadastro setCadastro={setCadastro} setLogado={setLogado}/>)
-  }
+    if( !logado && cadastro) {
+        return(<Cadastro setCadastro={setCadastro} />)
+    }
 
     return (
         <NavigationContainer>
@@ -48,6 +49,15 @@ export default function Rotas() {
                 <Tab.Screen
                     name="Foto"
                     component={Foto}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Cadastro"
+                    component={Cadastro}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="camera" color={color} size={size} />
