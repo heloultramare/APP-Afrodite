@@ -8,6 +8,8 @@ import { AuthContext } from '../Context/AuthContext';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
+import Regras from '../Components/Regras';
+import Agend2 from '../Components/Agend2';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +45,26 @@ export default function Rotas() {
                 <Tab.Screen
                     name="Foto"
                     component={Foto}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+
+                <Tab.Screen
+                    name="Regras"
+                    component={Regras}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+
+                <Tab.Screen
+                    name="Agend2"
+                    component={Agend2}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="camera" color={color} size={size} />
