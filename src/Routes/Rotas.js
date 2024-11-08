@@ -2,22 +2,28 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
 import Perfil from '../Pages/Perfil';
+import Cadastro from '../Pages/Cadastro';
 
 const Tab = createBottomTabNavigator();
 
 export default function Rotas() {
 
-    const { logado } = useContext(AuthContext);
+    const[logado, setLogado] = useState(false);
+    const[cadastro, setCadastro] = useState(false);
 
-    if (!logado) {
-        return (<Login />)
+    if( !logado && !cadastro ) {
+        return(<Login setCadastro={setCadastro}/>)
+    }
+  
+    if( !logado && cadastro) {
+        return(<Cadastro setCadastro={setCadastro} />)
     }
 
     return (
@@ -47,15 +53,6 @@ export default function Rotas() {
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="camera" color={color} size={size} />
-                        ),
-                    }}
-                />
-                 <Tab.Screen
-                    name="Perfil"
-                    component={Perfil}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
                         ),
                     }}
                 />
