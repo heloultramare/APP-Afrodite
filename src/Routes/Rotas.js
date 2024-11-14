@@ -8,21 +8,18 @@ import { AuthContext } from '../Context/AuthContext';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
-<<<<<<< HEAD
 import Clube from '../Pages/Clube';
 import Header from '../Components/Header';
 import { Text, View } from 'react-native';
-=======
 import Perfil from '../Pages/Perfil';
 import Cadastro from '../Pages/Cadastro';
->>>>>>> f9ee73b5e926d88409047276e00059543122bd21
 
 const Drwawer = createDrawerNavigator();
 
 export default function Rotas() {
 
-    const[logado, setLogado] = useState(false);
-    const[cadastro, setCadastro] = useState(false);
+    const[logado, setLogado] = useState(true);
+    const[cadastro, setCadastro] = useState(true);
 
     if( !logado && !cadastro ) {
         return(<Login setCadastro={setCadastro}/>)
