@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Text, View } from 'react-native'
 
 import { useContext, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
@@ -8,14 +9,10 @@ import { AuthContext } from '../Context/AuthContext';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
-<<<<<<< HEAD
 import Clube from '../Pages/Clube';
 import Header from '../Components/Header';
-import { Text, View } from 'react-native';
-=======
 import Perfil from '../Pages/Perfil';
 import Cadastro from '../Pages/Cadastro';
->>>>>>> f9ee73b5e926d88409047276e00059543122bd21
 
 const Drwawer = createDrawerNavigator();
 
