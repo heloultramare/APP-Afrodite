@@ -18,8 +18,8 @@ const Drwawer = createDrawerNavigator();
 
 export default function Rotas() {
 
-    const[logado, setLogado] = useState(false);
-    const[cadastro, setCadastro] = useState(false);
+    const[logado, setLogado] = useState(true);
+    const[cadastro, setCadastro] = useState(true);
 
     if( !logado && !cadastro ) {
         return(<Login setCadastro={setCadastro}/>)
