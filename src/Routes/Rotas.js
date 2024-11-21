@@ -73,6 +73,14 @@ export default function Rotas() {
                         ),
                     }}
                 />
+                <Drwawer.Screen
+                    name="Perfil"
+                    component={Perfil}
+                    options={{
+                        title: "",
+                        tabBarButton: (props) => null
+                    }}
+                />
             </Drwawer.Navigator>
         </NavigationContainer>
     )
