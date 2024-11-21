@@ -4,7 +4,9 @@ import Clube from '../Pages/Clube';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
 export default function Home(cor, borda) {
+
   return (
     <ScrollView style={css.scrollview} >
       <Image style={css.imagebanner} source={require("../../assets/BANNERS - AFRODITE LIFECARE.png")} />
@@ -13,7 +15,7 @@ export default function Home(cor, borda) {
           <Image style={css.imagemcaixa} source={require("../../assets/AFRODITE LIFECARE.png")} />
         </View>
         <View style={css.caixa}>
-          <Image style={css.imagemcaixa} source={require("../../assets/AFRODITE LIFECARE - FUNDO BEGE.png")} />
+          <Image style={css.imagemcaixa} source={require("../../assets/AFRODITE LIFECARE - FUNDO BEGE.png") } />
         </View>
         <View style={css.linha}></View>
 

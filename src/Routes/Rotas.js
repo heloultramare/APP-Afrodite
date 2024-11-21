@@ -15,12 +15,12 @@ import Cadastro from '../Pages/Cadastro';
 import Regras from '../Components/Regras';
 import Agend2 from '../Components/Agend2';
 
-const Drwawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function Rotas() {
 
-    const[logado, setLogado] = useState(false);
-    const[cadastro, setCadastro] = useState(false);
+    const[logado, setLogado] = useState(true);
+    const[cadastro, setCadastro] = useState(true);
 
     if( !logado && !cadastro ) {
         return(<Login setCadastro={setCadastro}/>)
@@ -32,7 +32,7 @@ export default function Rotas() {
 
     return (
         <NavigationContainer>
-            <Drwawer.Navigator
+            <Drawer.Navigator
                 screenOptions={{
                     headerShown: true,
                     headerStyle: {
@@ -45,7 +45,7 @@ export default function Rotas() {
 
 
             >
-                <Drwawer.Screen
+                <Drawer.Screen
                     name="Home"
                     component={Home}
                     options={{
@@ -55,7 +55,7 @@ export default function Rotas() {
 
                     }}
                 />
-                <Drwawer.Screen
+                <Drawer.Screen
                     name="Foto"
                     component={Foto}
                     options={{
@@ -65,7 +65,7 @@ export default function Rotas() {
                     }}
                 />
 
-                <Drwawer.Screen
+                <Drawer.Screen
                     name="Clube"
                     component={Clube}
                     options={{
@@ -74,7 +74,16 @@ export default function Rotas() {
                         ),
                     }}
                 />
-            </Drwawer.Navigator>
+                <Drawer.Screen
+                    name="Agend2"
+                    component={Agend2}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="agend2" color={color} size={size} />
+                        ),
+                    }}
+                />
+            </Drawer.Navigator>
         </NavigationContainer>
     )
 }
