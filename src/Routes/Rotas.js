@@ -1,20 +1,20 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { Text, View } from 'react-native';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
-
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
 import Clube from '../Pages/Clube';
 import Header from '../Components/Header';
-import { Text, View } from 'react-native';
 import Perfil from '../Pages/Perfil';
 import Cadastro from '../Pages/Cadastro';
+import Regras from '../Components/Regras';
+import Agend2 from '../Components/Agend2';
 
-const Drwawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function Rotas() {
 
@@ -31,7 +31,7 @@ export default function Rotas() {
 
     return (
         <NavigationContainer>
-            <Drwawer.Navigator
+            <Drawer.Navigator
                 screenOptions={{
                     headerShown: true,
                     headerStyle: {
@@ -44,7 +44,7 @@ export default function Rotas() {
 
 
             >
-                <Drwawer.Screen
+                <Drawer.Screen
                     name="Home"
                     component={Home}
                     options={{
@@ -54,7 +54,7 @@ export default function Rotas() {
 
                     }}
                 />
-                <Drwawer.Screen
+                <Drawer.Screen
                     name="Foto"
                     component={Foto}
                     options={{
@@ -64,7 +64,7 @@ export default function Rotas() {
                     }}
                 />
 
-                <Drwawer.Screen
+                <Drawer.Screen
                     name="Clube"
                     component={Clube}
                     options={{
@@ -73,7 +73,7 @@ export default function Rotas() {
                         ),
                     }}
                 />
-                <Drwawer.Screen
+                <Drawer.Screen
                     name="Perfil"
                     component={Perfil}
                     options={{
@@ -81,7 +81,16 @@ export default function Rotas() {
                         tabBarButton: (props) => null
                     }}
                 />
-            </Drwawer.Navigator>
+                <Drawer.Screen
+                    name="Agend2"
+                    component={Agend2}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="agend2" color={color} size={size} />
+                        ),
+                    }}
+                />
+            </Drawer.Navigator>
         </NavigationContainer>
     )
 }
