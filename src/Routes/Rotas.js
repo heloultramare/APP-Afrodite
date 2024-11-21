@@ -13,6 +13,7 @@ import Clube from '../Pages/Clube';
 import Header from '../Components/Header';
 import Perfil from '../Pages/Perfil';
 import Cadastro from '../Pages/Cadastro';
+import Agend1 from '../Pages/Agend1';
 
 const Drwawer = createDrawerNavigator();
 
@@ -70,6 +71,15 @@ export default function Rotas() {
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="clube" color={color} size={size} />
+                        ),
+                    }}
+                />
+                 <Drwawer.Screen
+                    name="Agend1"
+                    component={Agend1}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="agend1" color={color} size={size} />
                         ),
                     }}
                 />

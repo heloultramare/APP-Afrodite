@@ -1,4 +1,3 @@
-import { ImportExport } from 'aws-sdk';
 import React from 'react';
 import { Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,7 +9,6 @@ import Perfil from '../Pages/Perfil';
 export default function Header({ texto, cor, props }) {
 
   const handlePress = () => {
-    gi
     navigation.navigate('Perfil'); 
 };
 

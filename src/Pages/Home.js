@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from '../Components/Header';
-import Clube from '../Pages/Clube';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Header from '../Components/Header';
+import Clube from '../Pages/Clube';
 
 
 export default function Home(cor, borda) {
