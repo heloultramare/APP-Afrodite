@@ -4,7 +4,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { Text, View } from 'react-native';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
-
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
