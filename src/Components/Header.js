@@ -1,5 +1,6 @@
-import React from 'react';
-import { Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ImportExport } from 'aws-sdk';
+import React, { useState } from 'react';
+import { Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import Perfil from '../Pages/Perfil';
@@ -7,52 +8,43 @@ import Perfil from '../Pages/Perfil';
 
 
 export default function Header({ texto, cor, props }) {
+    const screenWidth = Dimensions.get("screen").width;
+    const [perfil, setPerfil] = useState(false);
 
-  const handlePress = () => {
-    navigation.navigate('Perfil'); 
-};
+    if (perfil) {
+        return (
+            <Perfil setPerfil={setPerfil} />
+        )
+    }
 
-  return (
-    <View style={[css.header, { backgroundColor: (cor) ? cor : "#F4E7EB", }]}>
-      <View style={css.headerText}>
+    return (
+        <View style={[css.header , { width: screenWidth }]}>
+                <TouchableOpacity style={{ zIndex: 1, marginTop: 20 }} onPress={() => props.navigation.openDrawer()}>
+                    <Icon name="menu" size={30} color="#B34361" title="Abrir" />
+                </TouchableOpacity>
+                <Image style={css.logo} source={require("../../assets/logoconchaescrita.png")} />
+                <TouchableOpacity onPress={() => props.navigation.navigate("Perfil")} style={{ zIndex: 2,  marginTop: 20 }}>
+                    <Icon name="account-circle" size={30} color="#B34361" title="Abrir" />
+                </TouchableOpacity>
+        </View>
 
-        <Icon name="menu" size={30} color="#B34361"  title="Abrir" style={{ position: "absolute", top: 60, left: 30, zIndex: 1}} onPress={() => props.navigation.openDrawer()}/>
-
-          <TouchableOpacity onPress={handlePress}>
-          <Icon name="account-circle" size={30} color="#B34361" title="Abrir" style={{ position: "absolute", top: 60, left: 350, zIndex: 1 }} onPress={() => props.navigation.openDrawer()} />
-          </TouchableOpacity>
-
-        
-
-        {texto && <Text style={css.texto}>{texto}</Text>}
-        
-
-      </View>
-      {!texto && <Image style={css.logo} source={require("../../assets/logoconchaescrita.png")} />}
-      
-
-
-
-    </View>
-
-  )
+    )
 }
 
 const css = StyleSheet.create({
-  header: {
-    width: "100%",
-    height: 120,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
-  },
-  logo: {
-    width: "100%",
-    height: 100,
-    resizeMode: "contain",
-    top: 25
-  },
+    header: {
+        height: 120,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: "#F4E7EB"
+    },
+    logo: {
+        width: "70%",
+        height: 100,
+        resizeMode: "contain",
+        top: 10
+    },
 })
 
 

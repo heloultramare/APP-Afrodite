@@ -64,21 +64,21 @@ export default function Perfil() {
 const css = StyleSheet.create({
     bigcontainer:{
         width: "100%",
-        height: 510,
+        height: 480,
         display: "flex",
         alignSelf: "center",
         backgroundColor: "#F4E7EB",
-        marginTop: 50,
+        marginTop: 40,
     },
     container: {
-        marginTop: 30,
+       
     },
     boxtexto: {
         marginTop: 40,
     },
 
     palavras: {
-        marginTop: 60,
+        marginTop: 40,
         display: "flex",
         flexDirection: "row",
         gap: 160,

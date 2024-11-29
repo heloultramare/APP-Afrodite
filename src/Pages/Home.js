@@ -1,22 +1,41 @@
-import React from 'react'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Header from '../Components/Header';
 import Clube from '../Pages/Clube';
+import Agend1 from './Agend1';
 
 
 export default function Home(cor, borda) {
 
+  const [agend1, setAgend1] = useState(false);
+  const [clube, setClube] = useState(false);
+
+  if (agend1) {
+    return (
+      <Agend1 setAgend1={setAgend1} />
+    )
+  }
+
+  if (clube) {
+    return (
+      <Clube setClube={setClube} />
+    )
+  }
+
   return (
     <ScrollView style={css.scrollview} >
       <Image style={css.imagebanner} source={require("../../assets/BANNERS - AFRODITE LIFECARE.png")} />
+
       <View style={css.container}>
-        <View style={css.caixa}>
+        <TouchableOpacity style={css.caixa} onPress={() => setAgend1(true)} >
           <Image style={css.imagemcaixa} source={require("../../assets/AFRODITE LIFECARE.png")} />
-        </View>
-        <View style={css.caixa}>
-          <Image style={css.imagemcaixa} source={require("../../assets/AFRODITE LIFECARE - FUNDO BEGE.png") } />
-        </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={css.caixa} onPress={() => setClube(true)} >
+        <Image style={css.imagemcaixa} source={require("../../assets/AFRODITE LIFECARE - FUNDO BEGE.png")} />
+        </TouchableOpacity>
+
         <View style={css.linha}></View>
 
         <View style={css.caixacontato}>
@@ -24,7 +43,6 @@ export default function Home(cor, borda) {
             <Text style={css.textcontato}>Contato</Text>
             <Text style={css.textmelhorforma}>Escolha a melhor forma e entre em contato</Text>
           </View>
-
 
           <View style={css.caixaiconehome}>
             <Icon style={css.iconeshome} name="cellphone" size={23} color="white" /><Text style={css.texticon}>WhatsApp: 11 5461-7946</Text>
@@ -37,57 +55,57 @@ export default function Home(cor, borda) {
             <Icon style={css.iconeshome} name="email-outline" size={23} color="white" /><Text style={css.texticon}>afroditelifecare@gmail.com</Text>
           </View>
 
-          
+
         </View>
         <View style={css.container2}>
-            <View style={css.caixaprofissional}>
-              <View>
+          <View style={css.caixaprofissional}>
+            <View>
               <Image style={css.imagemprofissional} source={require("../../assets/M.H.png")} />
               <Text style={css.nomeprofissional}>Dra. Maria Heloísa Carvalho</Text>
               <Text style={css.profissao}>Dentista geral e pediatra </Text>
-              </View>
+            </View>
 
-              <View>
+            <View>
               <Image style={css.imagemprofissional} source={require("../../assets/L.A.png")} />
               <Text style={css.nomeprofissional}>Dr. Leonardo Alves</Text>
               <Text style={css.profissao}>Dentista geral e pediatra </Text>
-              </View>              
             </View>
+          </View>
 
-            <View style={css.caixaprofissional}>
-              <View>
+          <View style={css.caixaprofissional}>
+            <View>
               <Image style={css.imagemprofissional} source={require("../../assets/H.U.png")} />
               <Text style={css.nomeprofissional}>Dra. Heloísa Ultramare</Text>
               <Text style={css.profissao}>Esteticista </Text>
-              </View>
+            </View>
 
-              <View>
+            <View>
               <Image style={css.imagemprofissional} source={require("../../assets/P.R.png")} />
               <Text style={css.nomeprofissional}>Dra. Paola Rovari</Text>
               <Text style={css.profissao}>Esteticista</Text>
-              </View>              
             </View>
+          </View>
 
-            <View style={css.caixaprofissional}>
-              <View>
+          <View style={css.caixaprofissional}>
+            <View>
               <Image style={css.imagemprofissional5} source={require("../../assets//R.C.png")} />
               <Text style={css.nomeprofissional5}>Dr. Rafael Celes Freitas</Text>
               <Text style={css.profissao5}>Nutricionista</Text>
-              </View>            
             </View>
           </View>
+        </View>
       </View>
       <View style={css.rodape}>
-      
+
       </View>
     </ScrollView>
-   
+
 
   )
 }
 
 const css = StyleSheet.create({
-  scrollview:{
+  scrollview: {
     height: "70%",
   },
   imagebanner: {
@@ -147,78 +165,78 @@ const css = StyleSheet.create({
     flexDirection: "row",
     marginTop: 20
   },
-  iconeshome:{
+  iconeshome: {
     gap: 10,
-    padding:5
+    padding: 5
   },
-  texticon:{
+  texticon: {
     color: "white",
     padding: 4
   },
- caixaprofissional: {
+  caixaprofissional: {
     width: "100%",
     height: 160,
     backgroundColor: "#f4e7eb",
     display: "flex",
     flexDirection: "row",
     gap: 30
-},
-nomeprofissional:{
-  top: 10,
-  fontWeight: "bold",
-  color: "#b34361",
-  marginLeft: 15,
-  fontSize: 13,
-  textAlign: "center"
+  },
+  nomeprofissional: {
+    top: 10,
+    fontWeight: "bold",
+    color: "#b34361",
+    marginLeft: 15,
+    fontSize: 13,
+    textAlign: "center"
 
-},
-profissao:{
-  top:12,
-  textAlign: "center",
-  marginLeft: 15,
-  fontSize: 12,
-  color: "#b34361",
-},
-imagemprofissional: {
-  width: 130,
-  height: 130,
-  objectFit: "contain",
-  marginLeft: 35,
-  marginTop: -30,
-  borderRadius: 6,
-},
-imagemprofissional5:{
-  width: 130,
-  height: 130,
-  objectFit: "contain",
-  marginTop: -30,
-  borderRadius: 6,
-  marginLeft: 140,
-},
-nomeprofissional5:{
-  top: 10,
-  fontWeight: "bold",
-  color: "#b34361",
-  marginLeft: 122,
-  fontSize: 13,
-  textAlign: "center"
+  },
+  profissao: {
+    top: 12,
+    textAlign: "center",
+    marginLeft: 15,
+    fontSize: 12,
+    color: "#b34361",
+  },
+  imagemprofissional: {
+    width: 130,
+    height: 130,
+    objectFit: "contain",
+    marginLeft: 35,
+    marginTop: -30,
+    borderRadius: 6,
+  },
+  imagemprofissional5: {
+    width: 130,
+    height: 130,
+    objectFit: "contain",
+    marginTop: -30,
+    borderRadius: 6,
+    marginLeft: 140,
+  },
+  nomeprofissional5: {
+    top: 10,
+    fontWeight: "bold",
+    color: "#b34361",
+    marginLeft: 122,
+    fontSize: 13,
+    textAlign: "center"
 
-},
-profissao5:{
-  top: 12,
-  textAlign: "center",
-  marginLeft: 122,
-  fontSize: 12,
-  color: "#b34361",
-},
-container2: {
-  gap: 80
-},
-rodape:{
-  marginTop: 80,
-  backgroundColor: "#f4e7eb",
-  width: "100%",
-  height: 80,
-}
+  },
+  profissao5: {
+    top: 12,
+    textAlign: "center",
+    marginLeft: 122,
+    fontSize: 12,
+    color: "#b34361",
+  },
+  container2: {
+    gap: 80
+  },
+  rodape: {
+    marginTop: 80,
+    backgroundColor: "#f4e7eb",
+    width: "100%",
+    height: 80,
+  }
 
 })
