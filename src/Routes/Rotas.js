@@ -77,6 +77,9 @@ export default function Rotas() {
                     name="Perfil"
                     component={Perfil}
                     options={{
+                        drawerItemStyle: {
+                            display: 'none',
+                        },
                         title: "",
                         tabBarButton: (props) => null
                     }}
