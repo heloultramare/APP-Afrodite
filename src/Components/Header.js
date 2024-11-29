@@ -19,7 +19,6 @@ export default function Header({ texto, cor, props }) {
             <Perfil setPerfil={setPerfil} />
         )
     }
-
     return (
         <View style={[css.header , { width: screenWidth }]}>
                 <TouchableOpacity style={{ zIndex: 1, marginTop: 20 }} onPress={() => props.navigation.openDrawer()}>
@@ -30,7 +29,6 @@ export default function Header({ texto, cor, props }) {
                     <Icon name="account-circle" size={30} color="#B34361" title="Abrir" />
                 </TouchableOpacity>
         </View>
-
     )
 }
 
@@ -49,7 +47,3 @@ const css = StyleSheet.create({
         top: 10
     },
 })
-
-
-
-
