@@ -1,4 +1,4 @@
-import { Text, TextInput, FlatList, TouchableHighlight, TouchableOpacity, View, StyleSheet, ScrollView, Pressable } from "react-native";
+import { Text, TextInput, FlatList, TouchableHighlight, TouchableOpacity, Alert, View, StyleSheet, ScrollView, Pressable, Image } from "react-native";
 import React, { useState } from 'react'
 import Header from "../Components/Header";
 
@@ -7,24 +7,82 @@ export default function Cadastro({ setCadastro }) {
 
     const [masculino, setMasculino] = useState(false);
     const [feminino, setFeminino] = useState(false);
+    const[email, setEmail] = useState("");
+    const[nome, setNome] = useState("");
+    const[senha, setSenha] = useState("");
+    const[datanascimento, setDataNascimento] = useState("");
+    const[cpf, setCPF] = useState("");
+    const[telefone, setTelefone] = useState("");
+    const[sexo, setSexo] = useState("");
+
+    const handleCPFChange = (text) => {
+        // Remove qualquer caractere que não seja número
+        const somenteNumeros = text.replace(/[^0-9]/g, '');
+        setCPF(somenteNumeros);
+    };
+
+    const handleTelChange = (text) => {
+        // Remove qualquer caractere que não seja número
+        const somenteNumeros = text.replace(/[^0-9]/g, '');
+        setTelefone(somenteNumeros);
+    };
+    
+    async function Cadastrar() {
+        
+            console.log("Dados de cadastro:", { nome, email, datanascimento, cpf, sexo, telefone, senha});
+            await fetch('http://10.133.22.7:5251/api/Cliente/CreateCliente', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nomeCliente: nome,
+                    emailCliente: email,
+                    dataNascimentoCliente: datanascimento,
+                    cpfCliente: cpf,
+                    sexoCliente: ( masculino ) ? "masculino" : "feminino",
+                    telCliente: telefone,
+                    senhaCliente: senha,
+                }),
+            })
+                .then((res) => res.json())
+                .then((json) => {
+                    if (json.clienteId) {
+                        setCadastro(true)
+                        Alert.alert("Sucesso", "Cadastro concluido com sucesso!");
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+
+        function Voltar(){
+            setCadastro(false)
+        }
 
     return (
+        
         <View style={css.container}>
-            <Header />
+            <View style={css.header}></View>
+            <View style={css.img}>
+                <Image style={css.imgreal} source={require('../../assets/AFRODITE.png')} />
+            </View>
             <ScrollView
                 style={css.scrollContent}
                 contentContainerStyle={css.content}
                 showsVerticalScrollIndicator={false} // Oculta a barra de rolagem vertical
                 showsHorizontalScrollIndicator={false} // Oculta a barra de rolagem horizontal
             >
-
                 <Text style={css.btnTpc}>Nome:</Text>
                 <TextInput
                     style={css.nome}
+                    onChangeText={(digitado) => setNome(digitado)}
+                    value={nome}
                 />
                 <Text style={css.Dtn}>Data de Nascimento:</Text>
                 <TextInput
                     style={css.nome}
+                    onChangeText={(digitado) => setDataNascimento(digitado)}
+                    value={datanascimento}
                 />
                 <Text>Sexo:</Text>
                 <View style={css.flex}>
@@ -39,6 +97,8 @@ export default function Cadastro({ setCadastro }) {
                     
                     <Pressable
                         style={[css.radioBtn2, { backgroundColor: feminino ? "#B34361" : "white" }]}
+                        value={sexo}
+                        onChangeText={(digitado) => setSexo(digitado)}
                         onPress={() => {
                             setFeminino(true);
                             setMasculino(false);
@@ -49,31 +109,41 @@ export default function Cadastro({ setCadastro }) {
                 <Text style={css.Cpf}>CPF:</Text>
                 <TextInput
                     style={css.nome}
+                    value={cpf}
+                    keyboardType="numeric" // Garante o teclado numérico
+                    onChangeText={handleCPFChange}
                 />
                 <Text style={css.Tel}>Telefone:</Text>
                 <TextInput
                     style={css.nome}
+                    value={telefone}
+                    keyboardType="numeric" // Garante o teclado numérico
+                    onChangeText={handleTelChange}
                 />
                 <Text style={css.Sen}>Email:</Text>
                 <TextInput
                     style={css.nome}
+                    onChangeText={(digitado) => setEmail(digitado)}
+                    value={email}
                 />
                 <Text style={css.Sen}>Senha:</Text>
                 <TextInput
                     style={css.nome}
+                    onChangeText={(digitado) => setSenha(digitado)}
+                    value={senha}
+                    secureTextEntry={true} // Oculta os caracteres
                 />
-                <TouchableOpacity style={css.btn}>
+                <TouchableOpacity onPress={Cadastrar} style={css.btn}>
                     <Text style={css.btnText}>Cadastrar</Text>
                 </TouchableOpacity>
                 <View style={css.flex}>
                     <Text style={css.textesqueceu}>Já tem Cadastro?</Text>
-                    <TouchableOpacity onPress={() => setCadastro( false )}>
+                    <TouchableOpacity onPress={Voltar}>
                         <Text style={css.fzrlogin}>FAZER LOGIN</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={css.fim}></View>
             </ScrollView>
-
         </View>
     )
 }
@@ -83,10 +153,25 @@ const css = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center"
     },
+    header: {
+        width: "100%",
+        height: 200,
+        position: "absolute",
+        top: 0,
+        backgroundColor: "#F4E7EB",
+    },
+    img: {
+        height: 100,
+    },
+    imgreal: {
+        height: 120,
+        width: 200,
+        marginTop: 40
+    },
     scrollContent: {
         width: "90%",
         height: "80%",
-        marginTop: 200
+        marginTop: 110
     },
     content: {
         justifyContent: "center"
