@@ -1,15 +1,20 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, Keyboard } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
 import Cadastro from './Cadastro';
 
-export default function Login({setCadastro, setLogado}) {
+export default function Login({setCadastro}) {
+  
+    const[email, setEmail] = useState("");
+    const[senha, setSenha] = useState("");
 
-    const [email, setEmail] = useState();
-    const [senha, setSenha] = useState();
+    const {Login} = useContext( AuthContext );
 
-    const { Login, error } = useContext(AuthContext);
-    
+
+    function HandleLogin()
+    {
+        Login(email, senha );
+    }
     return (
         <View style={css.View}>
         <View style={css.header}></View>
@@ -39,7 +44,7 @@ export default function Login({setCadastro, setLogado}) {
             <Text style={css.textesqueceu}>Esqueceu sua senha?</Text>
         </View>
         </View>        
-        <TouchableOpacity onPress={Login} style={css.btn}>
+        <TouchableOpacity onPress={HandleLogin} style={css.btn}>
             <Text style={css.btnText}>LOGIN</Text>
         </TouchableOpacity>
 
