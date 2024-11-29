@@ -1,7 +1,81 @@
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Clube() {
+
+    const { widthScreen } = Dimensions.get("screen").width;
+    const { pagamento, setPagamento } = useState(false);
+    const [clubes, setClubes] = useState();
+    const [tiposClube, setTiposClube] = useState();
+
+    const [clubeOdonto, setClubeOdonto] = useState();
+    const [clubeEstetica, setClubeEstetica] = useState();
+    const [clubeNutri, setClubeNutri] = useState();
+
+
+    const [anual, setAnual] = useState(false);
+    const [mensal, setMensal] = useState(false);
+
+    const [opcao, setOpcao ] = useState();
+
+    if (pagamento) {
+        return (
+            <pagamento setPagamento={setPagamento} />
+        )
+    }
+
+
+    async function getClubes() {
+        await fetch('http://10.133.22.34:5251/api/Clube/GetAllClube', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(json => setClubes(json))
+            .catch(err => console.log(err))
+    }
+
+    async function getTiposClubes() {
+        await fetch('http://10.133.22.34:5251/api/TipoClube/GetAllTipoClube', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(json => setTiposClube(json))
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        getClubes();
+        getTiposClubes();
+    }, [])
+
+
+    useEffect(() => {
+        if (tiposClube && clubes) {
+
+            tiposClube.map((item) => {
+                if (item.nomeTipoClube == "Clube Estética") {
+                    const filtroEstetica = clubes.filter(value => value.tipoClubeId == item.tipoClubeId);
+                    setClubeEstetica(filtroEstetica);
+                }
+                if (item.nomeTipoClube == "Clube Odonto") {
+                    const filtroOdonto = clubes.filter(value => value.tipoClubeId == item.tipoClubeId);
+                    setClubeOdonto(filtroOdonto);
+                }
+                if (item.nomeTipoClube == "Clube Nutri") {
+                    const filtroNutri = clubes.filter(value => value.tipoClubeId == item.tipoClubeId);
+                    setClubeNutri(filtroNutri);
+                }
+
+            })
+        }
+    }, [tiposClube, clubes]);
+
     return (
         <ScrollView style={css.scrollviewClube}>
             <View style={css.containerClube}>
@@ -36,187 +110,161 @@ export default function Clube() {
                 <View>
                     <Text style={css.textfunciona}>Escolha já a sua Concha de Afrodite!</Text>
                     <View>
-                        <Text style={css.textConchaClube}>CLUBE ESTÉTICA</Text>
 
-                        <View style={css.caixonaClube}>
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>COMBO MAÇA DE OURO</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/COMBO - ESTÉTICA.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 170,00/mês</Text>
-                                    </View>
-                                </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
-                                <View style={css.caixona}>
-                                <Text>Todo mês uma box e bag personalizadas com 8 a 11 
-                                    produtos com valor +R$250</Text> 
-                                </View>
+                        {clubeEstetica &&
+                            <>
+                                <Text style={css.textConchaClube}>CLUBE ESTÉTICA</Text>
+                                <View style={css.caixonaClube}>
+                                    <FlatList
+                                        data={clubeEstetica}
+                                        renderItem={({ item }) => (
+                                            <View style={css.caixaClube}>
+                                                <Text style={css.textCombo}>{item.nomeClube}</Text>
+                                                <Image style={css.imagemclube} source={{ uri: item.fotoClube }} />
+                                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
 
-                            </View>
+                                                <View style={css.boxTipo}>
+                                                <Pressable
+                                                        style={[css.btnAnual,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Anual" ) ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Anual" } )}
+                                                    />
+                                                    <View style={css.caixatipo}>
+                                                    <Text>Anual</Text>
+                                                    <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
+                                                    </View>                                         
+                                                </View>
 
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>BOX</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/BOX.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 150,00/mês</Text>
-                                    </View>
-                                </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
-                            </View>
+                                                <View style={css.boxTipo}>
+                                                    <Pressable
+                                                        style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
+                                                    />
+                                                    <View style={css.caixatipo}>
+                                                    <Text>Mensal</Text>
+                                                    <Text style={css.prazoMensal}> R$ {item.valorClube +30},00 / mês</Text>
+                                                    </View>
+                                                </View>
 
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>BAG</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/BAG - ESTÉTICA.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 130,00/mês</Text>
-                                    </View>
-                                </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+                                                <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
+                                                <View>
 
+                                                    <TouchableOpacity style={css.botaocomprar} onPress={() => setPagamento(true)}>
+                                                        <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
 
-                        <Text style={css.textConchaClube}>CLUBE ODONTO</Text>
-                        <View style={css.caixonaClube}>
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>COMBO MAÇA DE OURO</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/COMBO - ODONTO.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 190,00/mês</Text>
-                                    </View>
+                                        )}
+                                        keyExtractor={item => item.clubeId}
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={false}
+                                        contentContainerStyle={{ width: widthScreen, flexDirection: "row", gap: 20, paddingHorizontal: clubeEstetica.length * 5 }}
+                                    />
                                 </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
+                            </>
+                        }
 
-                            </View>
+                        {clubeOdonto &&
+                            <>
+                                <Text style={css.textConchaClube}>CLUBE ODONTO</Text>
+                                <View style={css.caixonaClube}>
+                                    <FlatList
+                                        data={clubeOdonto}
+                                        renderItem={({ item }) => (
+                                            <View style={css.caixaClube}>
+                                                <Text style={css.textCombo}>{item.nomeClube}</Text>
+                                                <Image style={css.imagemclube} source={{ uri: item.fotoClube }} />
+                                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
+                                                <View style={css.boxTipo}>
+                                                <Pressable
+                                                        style={[css.btnAnual,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Anual" ) ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Anual" } )}
+                                                    />
+                                                    <View style={css.caixatipo}>
+                                                    <Text>Anual</Text>
+                                                    <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
+                                                    </View>                                                   
+                                                    
+                                                </View>
+                                                <View style={css.boxTipo}>
 
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>BOX</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/BOX.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 190,00/mês</Text>
-                                    </View>
-                                </View>
+                                                    <Pressable
+                                                        style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
+                                                    />
+                                                    <View style={css.caixatipo}>
+                                                    <Text>Mensal</Text>
+                                                    <Text style={css.prazoMensal}> R$ {item.valorClube +30},00 / mês</Text>
+                                                    </View>
+                                                </View>
+                                                <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
+                                                <View>
+                                                    <Pressable style={css.botaocomprar}>
+                                                        <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
+                                                    </Pressable>
+                                                </View>
 
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
-                                
-                            </View>
+                                            </View>
+                                        )}
+                                        keyExtractor={item => item.clubeId}
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={false}
+                                        contentContainerStyle={{ width: widthScreen, flexDirection: "row", gap: 20, paddingHorizontal: clubeOdonto.length * 5 }}
 
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>BAG</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/BAG - ODONTO.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 190,00/mês</Text>
-                                    </View>
+                                    />
                                 </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+                            </>
+                        }
 
-                        <Text style={css.textConchaClube}>CLUBE NUTRI</Text>
-                        <View style={css.caixonaClube}>
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>COMBO MAÇA DE OURO</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/COMBO - NUTRIÇÃO.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 170,00/mês</Text>
-                                    </View>
-                                </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
+                        {clubeNutri &&
+                            <>
+                                <Text style={css.textConchaClube}>CLUBE NUTRI</Text>
+                                <View style={css.caixonaClube}>
+                                    <FlatList
+                                        data={clubeNutri}
+                                        renderItem={({ item }) => (
+                                            <View style={css.caixaClube}>
+                                                <Text style={css.textCombo}>{item.nomeClube}</Text>
+                                                <Image style={css.imagemclube} source={{ uri: item.fotoClube }} />
+                                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
+                                                <View style={css.boxTipo}>
+                                                <Pressable
+                                                        style={[css.btnAnual,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Anual" ) ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Anual" } )}
+                                                    />
+                                                    <View style={css.caixatipo}>
+                                                    <Text>Anual</Text>
+                                                    <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
+                                                    </View>                                                   
+                                                    
+                                                </View>
+                                                <View style={css.boxTipo}>
 
-                            </View>
-
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>BOX</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/BOX.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 150,00/mês</Text>
-                                    </View>
+                                                    <Pressable
+                                                        style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
+                                                    />
+                                                    <View style={css.caixatipo}>
+                                                    <Text>Mensal</Text>
+                                                    <Text style={css.prazoMensal}> R$ {item.valorClube +30},00 / mês</Text>
+                                                    </View>
+                                                </View>
+                                                <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
+                                                <View>
+                                                    <Pressable style={css.botaocomprar}>
+                                                        <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
+                                                    </Pressable>
+                                                </View>
+                                            </View>
+                                        )}
+                                        keyExtractor={item => item.clubeId}
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={false}
+                                        contentContainerStyle={{ width: widthScreen, flexDirection: "row", gap: 20, paddingHorizontal: clubeNutri.length * 5 }}
+                                    />
                                 </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
-                            </View>
-
-                            <View style={css.caixaClube}>
-                                <Text style={css.textCombo}>BAG</Text>
-                                <Image style={css.imagemclube} source={require("../../assets/BAG - NUTRIÇÃO.png")} />
-                                <Text style={css.textescolha}>Escolha sua recorrência</Text>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Anual</Text>
-                                        <Text style={css.prazo}>R$ 130,00/mês</Text>
-                                    </View>
-                                </View>
-                                <View style={css.boxTipo}>
-                                    <View style={css.caixatipo}>
-                                        <Text style={css.prazo}>Mensal</Text>
-                                        <Text style={css.prazo}>R$ 200,00/mês</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+                            </>
+                        }
 
                         <View style={css.rodapeClube}></View>
                     </View>
@@ -261,7 +309,8 @@ const css = StyleSheet.create({
     textbolotas: {
         width: "70%",
         height: 90,
-        fontSize: 13
+        fontSize: 13,
+        textAlign: "center",
     },
     row: {
         width: "100%",
@@ -294,22 +343,22 @@ const css = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         width: '100%',
-        height: 350,
-        gap: 10,
+        height: 420,
         marginTop: 20,
         justifyContent: 'center',
+        paddingHorizontal: 20
     },
     caixaClube: {
         backgroundColor: "#F8F1F3",
-        width: '60%',
+        width: 290,
         borderRadius: 15,
         borderWidth: 2,
-        borderColor: "#FFC0CB"
+        borderColor: "#FFC0CB",
 
     },
     imagemclube: {
-        width: "40%",
-        height: 80,
+        width: "35%",
+        height: 85,
         alignSelf: "center",
         marginTop: 20
     },
@@ -320,7 +369,7 @@ const css = StyleSheet.create({
         textAlign: "center"
     },
     textescolha: {
-        textAlign: "center"
+        textAlign: "center",
     },
     boxTipo: {
         width: "90%",
@@ -330,23 +379,91 @@ const css = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: "#F8F1F3",
         borderWidth: 2,
-        borderColor: "#B34361",
+        borderColor: "#FFC0CB",
         borderRadius: 5
     },
     caixatipo: {
         height: 30,
         display: "flex",
         flexDirection: "row",
-        gap: 20,
+        padding: 5,
+        gap: 70,
     },
     prazo: {
-        padding: 5
+        fontSize: 12,
+        height: 30,
+        width: "45%",
+      
+    },
+    prazoMensal:{
+        fontSize: 12,
+        height: 30,
+        width: "45%",
+       
+        marginLeft: -10
+    },
+    textDetalhes: {
+        fontSize: 10,
+        marginTop: 5,
+        padding: 13
+    },
+    botao: {
+        width: "90%",
+        height: 30,
+        alignSelf: "center",
+        marginTop: 13,
+        borderWidth: 2,
+        borderColor: "#FFC0CB",
+        borderRadius: 5
+    },
+    botaocomprar: {
+        width: "90%",
+        height: 30,
+        alignSelf: "center",
+        marginTop: 13,
+        borderWidth: 2,
+        backgroundColor: "#b34361",
+        borderColor: "#b34361",
+        borderRadius: 5
+    },
+    textoBotao: {
+        width: "100%",
+        fontWeight: "bold",
+        textAlign: "center",
+        marginTop: 3,
+    },
+    textoBotaoComprar: {
+        width: "100%",
+        fontWeight: "bold",
+        textAlign: "center",
+        marginTop: 3,
+        color: "white"
     },
     rodapeClube: {
         marginTop: 80,
         backgroundColor: "#f4e7eb",
         width: "100%",
         height: 80,
-    }
+    },
+    btnAnual: {
+        width: 20,
+        height: 20,
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 50,
+        borderColor: "#ffc0cb", 
+        marginLeft: 20,
+        marginVertical: 5
+    },
+    btnMensal: {
+        width: 20,
+        height: 20,
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 50,   
+        borderColor: "#ffc0cb", 
+        marginLeft: 20,
+        marginVertical: 5
+    },
 
 })
