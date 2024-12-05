@@ -82,7 +82,7 @@ export default function Agend1() {
 
                 </Pressable>
                 <Pressable style={css.boxAreas} onPress={() => setAreaEstetica((current) => !current)} >
-                    <Text style={css.textAreas}>ESTÉTICO</Text>
+                    <Text style={css.textAreas}>ESTÉTICA</Text>
                     <Icon style={css.icones2} name={AreaEstetica ? "chevron-down" : "chevron-right"} size={23} color="black" />
                 </Pressable>
                 {AreaEstetica &&
@@ -218,14 +218,20 @@ const css = StyleSheet.create({
     },
 
     caixaestetica: {
+        width: "80%",
+        
         fontSize: 12,
         fontWeight: "bold",
     },
     caixaodonto: {
+        width: "80%",
+       
         fontSize: 12,
         fontWeight: "bold",
     },
     caixanutri: {
+        width: "80%",
+        
         fontSize: 12,
         fontWeight: "bold",
     },
@@ -233,7 +239,15 @@ const css = StyleSheet.create({
         color: "#B34361",
         fontWeight: "bold",
         fontSize: 12,
-        marginLeft: 5,
+        marginLeft: 15,
+        columnGap:50,
+        paddingVertical: 8,
+
+        borderRadius: 8,
+        width: "80%",
+        
+          
+        
     },
     rodape: {
         marginTop: 115,
@@ -242,6 +256,7 @@ const css = StyleSheet.create({
         height: 80,
     },
     caixa: {
+        width: "92%",
         marginTop: 10,
         marginHorizontal: 15,
         backgroundColor: "#ffffff",
@@ -251,7 +266,7 @@ const css = StyleSheet.create({
         padding: 15,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
+        
     },
     detalhesTexto: {
         flex: 1,
