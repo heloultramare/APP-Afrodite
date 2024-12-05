@@ -39,7 +39,7 @@ export default function Agend2() {
     
 
     async function getProfissionais() {
-        await fetch('http://10.133.22.24:5251/api/Profissional/GetAllProfissional', {
+        await fetch('http://10.133.22.32:5251/api/Profissional/GetAllProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -53,7 +53,7 @@ export default function Agend2() {
     }
 
     async function getTipoProfissional() {
-        await fetch('http://10.133.22.24:5251/api/TipoProfissional/GetAllTipoProfissional', {
+        await fetch('http://10.133.22.32:5251/api/TipoProfissional/GetAllTipoProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -82,7 +82,7 @@ export default function Agend2() {
         })
             .then(res => res.json())
             .then(json => {
-                Alert.alert( "Agendamento Concluído com Sucesso" );
+                Alert.alert( "Sucesso", "Seu agendamento foi concluído com sucesso!" );
                 setProcedimento( null );
             })
             .catch(err => console.log(err))
@@ -116,16 +116,7 @@ export default function Agend2() {
         </TouchableOpacity>
     );
 
-    const handleSave = () => {
-        if (!profissionalAtual || !horaSelecionada || !diaSelecionado) {
-            Alert.alert("Erro", "Por favor, preencha todos os campos.");
-            return;
-        }
-
-        Alert.alert("Sucesso", "Seu agendamento foi concluído com sucesso!", [
-            { text: "OK", onPress: () => navigation.navigate('Home') }
-        ]);
-    };
+    
 
     return (
         <ScrollView style={css.scrollview}>
