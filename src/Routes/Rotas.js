@@ -1,21 +1,26 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { Text, View } from 'react-native';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
-
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
+import Clube from '../Pages/Clube';
+import Header from '../Components/Header';
+import Perfil from '../Pages/Perfil';
 import Cadastro from '../Pages/Cadastro';
-import Pagamento from '../Pages/Pagamento';
+import Agend1 from '../Pages/Agend1';
+import Regras from '../Components/Regras';
+import Agend2 from '../Components/Agend2';
 
-const Tab = createBottomTabNavigator();
+
+const Drawer = createDrawerNavigator();
 
 export default function Rotas() {
 
-    const[logado, setLogado] = useState(true);
+    const {logado} = useContext( AuthContext );
     const[cadastro, setCadastro] = useState(false);
 
     if( !logado && !cadastro ) {
@@ -28,26 +33,30 @@ export default function Rotas() {
 
     return (
         <NavigationContainer>
-            <Tab.Navigator
+            <Drawer.Navigator
                 screenOptions={{
-                    headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarStyle: {
-                        backgroundColor: '#191919',
+                    headerShown: true,
+                    headerStyle: {
+                        backgroundColor: "red",
+                        height: 150
                     },
+                    header: (props) => (<Header props={props} />),
                     tabBarActiveTintColor: "white"
                 }}
+
+
             >
-                <Tab.Screen
+                <Drawer.Screen
                     name="Home"
                     component={Home}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="home" color={color} size={size} />
                         ),
+
                     }}
                 />
-                <Tab.Screen
+                <Drawer.Screen
                     name="Foto"
                     component={Foto}
                     options={{
@@ -56,25 +65,46 @@ export default function Rotas() {
                         ),
                     }}
                 />
-                <Tab.Screen
-                    name="Cadastro"
-                    component={Cadastro}
+
+                <Drawer.Screen
+                    name="Clube"
+                    component={Clube}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                            <MaterialCommunityIcons name="clube" color={color} size={size} />
                         ),
                     }}
                 />
-                <Tab.Screen
-                    name="Pagamento"
-                    component={Pagamento}
+                 <Drawer.Screen
+                    name="Agend1"
+                    component={Agend1}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="shopping" color={color} size={size} />
+                            <MaterialCommunityIcons name="agend1" color={color} size={size} />
+                        ),
+                    }}
+                    />
+                <Drawer.Screen
+                    name="Perfil"
+                    component={Perfil}
+                    options={{
+                        drawerItemStyle: {
+                            display: 'none',
+                        },
+                        title: "",
+                        tabBarButton: (props) => null
+                    }}
+                />
+                <Drawer.Screen
+                    name="Agend2"
+                    component={Agend2}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="agend2" color={color} size={size} />
                         ),
                     }}
                 />
-            </Tab.Navigator>
+            </Drawer.Navigator>
         </NavigationContainer>
     )
 }
