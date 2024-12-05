@@ -11,8 +11,10 @@ import Clube from '../Pages/Clube';
 import Header from '../Components/Header';
 import Perfil from '../Pages/Perfil';
 import Cadastro from '../Pages/Cadastro';
+import Agend1 from '../Pages/Agend1';
 import Regras from '../Components/Regras';
 import Agend2 from '../Components/Agend2';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -73,6 +75,15 @@ export default function Rotas() {
                         ),
                     }}
                 />
+                 <Drawer.Screen
+                    name="Agend1"
+                    component={Agend1}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="agend1" color={color} size={size} />
+                        ),
+                    }}
+                    />
                 <Drawer.Screen
                     name="Perfil"
                     component={Perfil}

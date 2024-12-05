@@ -1,18 +1,32 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Image, ScrollView, Alert } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import CalendarPicker from 'react-native-calendar-picker';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, FlatList, StatusBar } from 'react-native'
+import React, { useContext, useState } from 'react'
+import CalendarPicker from 'react-native-calendar-picker'
+import { AuthContext } from '../Context/AuthContext';
+
+
 export default function Agend2() {
-    const [diaSelecionado, setDiaSelecionado] = useState();
-    const [profissionalAtual, setProfissionalAtual] = useState('Dra. Heloísa Ultramare');
-    const [mostrarSelecao, setMostrarSelecao] = useState(false);
-    const [horaSelecionada, setHoraSelecionada] = useState(null);
-    const [observacao, setObservacao] = useState("");
 
-    const [profissionais, setProfissionais] = useState();
-    const [tipoProfissioanl, setTipoProfissioanl] = useState();
+    const [diaSelecionado, setDiaSelecionado,] = useState();
 
-    const horarios = [
+    const {procedimento} = useContext( AuthContext );
+
+    console.log( procedimento );
+
+    const equipe = [
+        { id: '1', equipe: 'Heloísa Ultramare' },
+        { id: '2', equipe: 'Paola Rovari' },
+        { id: '3', equipe: 'Maria Heloísa Carvalho' },
+        { id: '4', equipe: 'Rafael Celes Freitas' },
+        { id: '5', equipe: 'Leonardo Alves' },
+    ];
+    const renderItem2 = ({ item }) => (
+        <View style={css.caixaitem}>
+            <Text style={css.item}>{item.equipe}</Text>
+        </View>
+    );
+    
+
+    const data = [
         { id: '1', data: '08:00' },
         { id: '2', data: '09:00' },
         { id: '3', data: '10:00' },

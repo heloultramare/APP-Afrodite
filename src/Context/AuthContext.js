@@ -6,6 +6,7 @@ function AuthProvider({ children }) {
     const [logado, setLogado] = useState(true);
     const [error, setError] = useState(true);
     const [ usuario, setUsuario ] = useState();
+    const [procedimento, setProcedimento] = useState();
 
     async function Login(email, senha) {
 
@@ -34,7 +35,7 @@ function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ logado: logado, Login, error: error, usuario: usuario }}>
+        <AuthContext.Provider value={{ logado: logado, Login, error: error, usuario: usuario, procedimento: procedimento, setProcedimento }}>
             {children}
         </AuthContext.Provider>
     )

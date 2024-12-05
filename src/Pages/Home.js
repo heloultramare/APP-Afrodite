@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import Header from '../Components/Header';
-import Clube from '../Pages/Clube';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Header from '../Components/Header';
+import Clube from '../Pages/Clube';
+import Agend1 from './Agend1';
 
 
 export default function Home(cor, borda) {
