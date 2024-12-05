@@ -137,9 +137,10 @@ export default function Agend1() {
                         </View>
                     )
                 }
-                <View style={css.rodape}>
-                </View>
+                
             </View>
+            <View style={css.rodape}>
+                </View>
         </ScrollView>
     );
 }
