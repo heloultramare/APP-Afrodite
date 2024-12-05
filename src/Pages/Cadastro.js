@@ -30,7 +30,7 @@ export default function Cadastro({ setCadastro }) {
     async function Cadastrar() {
         
             console.log("Dados de cadastro:", { nome, email, datanascimento, cpf, sexo, telefone, senha});
-            await fetch('http://10.133.22.32:5251/api/Cliente/CreateCliente', {
+            await fetch('http://10.133.22.24:5251/api/Cliente/CreateCliente', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
