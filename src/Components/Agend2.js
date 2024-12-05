@@ -1,32 +1,29 @@
-import { View, Text, StyleSheet, FlatList, StatusBar } from 'react-native'
-import React, { useContext, useState } from 'react'
-import CalendarPicker from 'react-native-calendar-picker'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Image, ScrollView, Alert } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import CalendarPicker from 'react-native-calendar-picker';
+import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../Context/AuthContext';
-
-
 export default function Agend2() {
 
-    const [diaSelecionado, setDiaSelecionado,] = useState();
+    const [diaSelecionado, setDiaSelecionado] = useState();
+    const [profissionalAtual, setProfissionalAtual] = useState("Selecione");
+    const [mostrarSelecao, setMostrarSelecao] = useState(false);
+    const [horaSelecionada, setHoraSelecionada] = useState(null);
+    const [observacao, setObservacao] = useState("");
+    const [profissionalId, setProfissionalId] = useState(0);
+    const [profissionais, setProfissionais] = useState();
+    const [tipoProfissioanl, setTipoProfissioanl] = useState();
+    const {procedimento, usuario, setProcedimento } = useContext( AuthContext );
 
-    const {procedimento} = useContext( AuthContext );
+    const navigation = useNavigation();
 
-    console.log( procedimento );
-
-    const equipe = [
-        { id: '1', equipe: 'Heloísa Ultramare' },
-        { id: '2', equipe: 'Paola Rovari' },
-        { id: '3', equipe: 'Maria Heloísa Carvalho' },
-        { id: '4', equipe: 'Rafael Celes Freitas' },
-        { id: '5', equipe: 'Leonardo Alves' },
-    ];
-    const renderItem2 = ({ item }) => (
-        <View style={css.caixaitem}>
-            <Text style={css.item}>{item.equipe}</Text>
-        </View>
-    );
+    if( diaSelecionado ) {
+        console.log( diaSelecionado );
+    }
     
 
-    const data = [
+
+    const horarios = [
         { id: '1', data: '08:00' },
         { id: '2', data: '09:00' },
         { id: '3', data: '10:00' },
@@ -39,10 +36,10 @@ export default function Agend2() {
         { id: '10', data: '18:00' },
     ];
 
-    const navigation = useNavigation();
+    
 
     async function getProfissionais() {
-        await fetch('http://10.133.22.34:5251/api/Profissional/GetAllProfissional', {
+        await fetch('http://10.133.22.32:5251/api/Profissional/GetAllProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -56,7 +53,7 @@ export default function Agend2() {
     }
 
     async function getTipoProfissional() {
-        await fetch('http://10.133.22.34:5251/api/TipoProfissional/GetAllTipoProfissional', {
+        await fetch('http://10.133.22.32:5251/api/TipoProfissional/GetAllTipoProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -65,6 +62,28 @@ export default function Agend2() {
             .then(res => res.json())
             .then(json => {
                 setTipoProfissioanl(json);
+            })
+            .catch(err => console.log(err))
+    }
+
+    async function Agendar() {
+        await fetch('http://10.133.22.32:5251/api/Agendamento/CreateAgendamento', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                procedimentoId: procedimento.procedimentoId,
+                dataHoraAgendamento: diaSelecionado + "T" + horaSelecionada + ":00.00Z",
+                profissionalId: profissionalId,
+                observacaoAgendamento: observacao,
+                clienteId: usuario.clienteId
+              })
+        })
+            .then(res => res.json())
+            .then(json => {
+                Alert.alert( "Sucesso", "Seu agendamento foi concluído com sucesso!" );
+                setProcedimento( null );
             })
             .catch(err => console.log(err))
     }
@@ -78,9 +97,11 @@ export default function Agend2() {
         <TouchableOpacity
             style={css.botaoProfissional}
             onPress={() => {
+                setProfissionalId( item.profissionalId);
                 setProfissionalAtual(item.nomeProfissional);
                 setMostrarSelecao(false);
             }}
+            key={item.profissionalId}
         >
             <Text style={css.textoBotao}>{item.nomeProfissional} | {tipoProfissioanl.filter(value => value.tipoProfissionalId == item.tipoProfissionalId).map(value => value.nomeTipoProfissional)} </Text>
         </TouchableOpacity>
@@ -88,23 +109,14 @@ export default function Agend2() {
 
     const renderHorario = ({ item }) => (
         <TouchableOpacity
-            style={[css.caixaitemhora, horaSelecionada === item.id && css.horaSelecionada]}
-            onPress={() => setHoraSelecionada(item.id)}
+            style={[css.caixaitemhora, horaSelecionada === item.data && css.horaSelecionada]}
+            onPress={() => setHoraSelecionada(item.data)}
         >
-            <Text style={[css.itemhora, { color: horaSelecionada == item.id ? "#F4E7EB" : "#B34361" }]}>{item.data}</Text>
+            <Text style={[css.itemhora, { color: horaSelecionada == item.data ? "#F4E7EB" : "#B34361" }]}>{item.data}</Text>
         </TouchableOpacity>
     );
 
-    const handleSave = () => {
-        if (!profissionalAtual || !horaSelecionada || !diaSelecionado) {
-            Alert.alert("Erro", "Por favor, preencha todos os campos.");
-            return;
-        }
-
-        Alert.alert("Sucesso", "Seu agendamento foi concluído com sucesso!", [
-            { text: "OK", onPress: () => navigation.navigate('Home') }
-        ]);
-    };
+    
 
     return (
         <ScrollView style={css.scrollview}>
@@ -150,7 +162,7 @@ export default function Agend2() {
                     todayBackgroundColor="#EFEFEF"
                     selectedDayColor="#F4E7EB"
                     selectedDayTextColor="#B34361"
-                    onDateChange={(date) => setDiaSelecionado(date)}
+                    onDateChange={(date) => setDiaSelecionado(date.toISOString().split("T")[0])}
                     width={350}
                 />
             </View>
@@ -176,7 +188,7 @@ export default function Agend2() {
                 />
             </View>
 
-            <TouchableOpacity style={css.botaoSalvar} onPress={handleSave}>
+            <TouchableOpacity style={css.botaoSalvar} onPress={Agendar}>
                 <Text style={css.textoBotaoSalvar}>Agendar</Text>
             </TouchableOpacity>
 
