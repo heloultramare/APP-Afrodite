@@ -22,7 +22,7 @@ export default function Agend1() {
 
 
     async function getProcedimentos() {
-        await fetch('http://10.133.22.32:5251/api/Procedimento/GetAllProcedimento', {
+        await fetch('http://10.133.22.33:5251/api/Procedimento/GetAllProcedimento', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
