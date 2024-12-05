@@ -57,16 +57,6 @@ export default function Rotas() {
 
                     }}
                 />
-                 <Drawer.Screen
-                    name="Pagamento"
-                    component={Pagamento}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="pagamento" color={color} size={size} />
-                        ),
-
-                    }}
-                />
                 
 
                 <Drawer.Screen
