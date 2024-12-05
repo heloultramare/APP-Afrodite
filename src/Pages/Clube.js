@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AuthContext } from '../Context/AuthContext';
 
-export default function Clube({setClube}) {
+export default function Clube() {
+
+    const{clube, setClube} = useContext( AuthContext );
 
     const { widthScreen } = Dimensions.get("screen").width;
-    const { pagamento, setPagamento } = useState(false);
+    const [ pagamento, setPagamento ] = useState(false);
+    
+
     const [clubes, setClubes] = useState();
     const [tiposClube, setTiposClube] = useState();
 
@@ -16,14 +21,14 @@ export default function Clube({setClube}) {
     const [anual, setAnual] = useState(false);
     const [mensal, setMensal] = useState(false);
 
-        const [opcao, setOpcao ] = useState({ id: 0, opcao: "" });
+    const [opcao, setOpcao] = useState({ id: 0, opcao: "" });
 
     if (pagamento) {
         return (
             <pagamento setPagamento={setPagamento} />
         )
     }
-
+    
 
     async function getClubes() {
         await fetch('http://10.133.22.34:5251/api/Clube/GetAllClube', {
@@ -54,6 +59,7 @@ export default function Clube({setClube}) {
         getTiposClubes();
     }, [])
 
+    
 
     useEffect(() => {
         if (tiposClube && clubes) {
@@ -79,7 +85,15 @@ export default function Clube({setClube}) {
     return (
         <ScrollView style={css.scrollviewClube}>
             <View style={css.containerClube}>
-                <Text style={css.textClube}>CLUBE</Text>
+                <View style={css.caixinha}>
+                    <Text style={css.textClube}>CLUBE</Text>
+                    <Pressable onPress={() => setClube(false)} >
+                        <Text style={css.botaoVoltar}>VOLTAR</Text>
+                    </Pressable>
+                </View>
+
+
+
                 <Text style={css.textfunciona}>Como funciona?</Text>
                 <View style={css.boxClube}>
                     <View style={css.row}>
@@ -124,33 +138,33 @@ export default function Clube({setClube}) {
                                                 <Text style={css.textescolha}>Escolha sua recorrência</Text>
 
                                                 <View style={css.boxTipo}>
-                                                <Pressable
-                                                        style={[css.btnAnual,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Anual" ) ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Anual" } )}
+                                                    <Pressable
+                                                        style={[css.btnAnual, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Anual") ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual" })}
                                                     />
                                                     <View style={css.caixatipo}>
-                                                    <Text>Anual</Text>
-                                                    <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
-                                                    </View>                                         
+                                                        <Text>Anual</Text>
+                                                        <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
+                                                    </View>
                                                 </View>
 
                                                 <View style={css.boxTipo}>
                                                     <Pressable
-                                                        style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
+                                                        style={[css.btnMensal, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Mensal") ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Mensal" })}
                                                     />
                                                     <View style={css.caixatipo}>
-                                                    <Text>Mensal</Text>
-                                                    <Text style={css.prazoMensal}> R$ {item.valorClube +30},00 / mês</Text>
+                                                        <Text>Mensal</Text>
+                                                        <Text style={css.prazoMensal}> R$ {item.valorClube + 30},00 / mês</Text>
                                                     </View>
                                                 </View>
 
                                                 <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
                                                 <View>
 
-                                                    <TouchableOpacity style={css.botaocomprar} onPress={() => setPagamento(true)}>
+                                                    <Pressable style={css.botaocomprar} onPress={() => setPagamento(false)}>
                                                         <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
-                                                    </TouchableOpacity>
+                                                    </Pressable>
                                                 </View>
                                             </View>
 
@@ -176,30 +190,30 @@ export default function Clube({setClube}) {
                                                 <Image style={css.imagemclube} source={{ uri: item.fotoClube }} />
                                                 <Text style={css.textescolha}>Escolha sua recorrência</Text>
                                                 <View style={css.boxTipo}>
-                                                <Pressable
-                                                        style={[css.btnAnual,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Anual" ) ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Anual" } )}
+                                                    <Pressable
+                                                        style={[css.btnAnual, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Anual") ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual" })}
                                                     />
                                                     <View style={css.caixatipo}>
-                                                    <Text>Anual</Text>
-                                                    <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
-                                                    </View>                                                   
-                                                    
+                                                        <Text>Anual</Text>
+                                                        <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
+                                                    </View>
+
                                                 </View>
                                                 <View style={css.boxTipo}>
 
                                                     <Pressable
-                                                       style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
-                                                       onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
+                                                        style={[css.btnMensal, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Mensal") ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Mensal" })}
                                                     />
                                                     <View style={css.caixatipo}>
-                                                    <Text>Mensal</Text>
-                                                    <Text style={css.prazoMensal}> R$ {item.valorClube +30},00 / mês</Text>
+                                                        <Text>Mensal</Text>
+                                                        <Text style={css.prazoMensal}> R$ {item.valorClube + 30},00 / mês</Text>
                                                     </View>
                                                 </View>
                                                 <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
                                                 <View>
-                                                    <Pressable style={css.botaocomprar}>
+                                                <Pressable style={css.botaocomprar} onPress={() => setPagamento(false)}>
                                                         <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
                                                     </Pressable>
                                                 </View>
@@ -228,30 +242,30 @@ export default function Clube({setClube}) {
                                                 <Image style={css.imagemclube} source={{ uri: item.fotoClube }} />
                                                 <Text style={css.textescolha}>Escolha sua recorrência</Text>
                                                 <View style={css.boxTipo}>
-                                                <Pressable
-                                                        style={[css.btnAnual,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Anual" ) ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Anual" } )}
+                                                    <Pressable
+                                                        style={[css.btnAnual, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Anual") ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual" })}
                                                     />
                                                     <View style={css.caixatipo}>
-                                                    <Text>Anual</Text>
-                                                    <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
-                                                    </View>                                                   
-                                                    
+                                                        <Text>Anual</Text>
+                                                        <Text style={css.prazo}>R$ {item.valorClube},00 / mês</Text>
+                                                    </View>
+
                                                 </View>
                                                 <View style={css.boxTipo}>
 
                                                     <Pressable
-                                                        style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
+                                                        style={[css.btnMensal, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Mensal") ? "#B34361" : "white" }]}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Mensal" })}
                                                     />
                                                     <View style={css.caixatipo}>
-                                                    <Text>Mensal</Text>
-                                                    <Text style={css.prazoMensal}> R$ {item.valorClube +30},00 / mês</Text>
+                                                        <Text>Mensal</Text>
+                                                        <Text style={css.prazoMensal}> R$ {item.valorClube + 30},00 / mês</Text>
                                                     </View>
                                                 </View>
                                                 <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
                                                 <View>
-                                                    <Pressable style={css.botaocomprar}>
+                                                <Pressable style={css.botaocomprar} onPress={() => setPagamento(false)}>
                                                         <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
                                                     </Pressable>
                                                 </View>
@@ -280,6 +294,13 @@ const css = StyleSheet.create({
         width: "100%",
         height: "70%",
         marginTop: 20
+    },
+    botaoVoltar: {
+        color: "#b34361",
+        fontWeight: "bold",
+        fontSize: 16,
+        marginLeft: "75%",
+        top: -20
     },
     boxClube: {
         width: "90%",
@@ -393,13 +414,13 @@ const css = StyleSheet.create({
         fontSize: 12,
         height: 30,
         width: "45%",
-      
+
     },
-    prazoMensal:{
+    prazoMensal: {
         fontSize: 12,
         height: 30,
         width: "45%",
-       
+
         marginLeft: -10
     },
     textDetalhes: {
@@ -451,7 +472,7 @@ const css = StyleSheet.create({
         borderColor: "black",
         borderWidth: 1,
         borderRadius: 50,
-        borderColor: "#ffc0cb", 
+        borderColor: "#ffc0cb",
         marginLeft: 20,
         marginVertical: 5
     },
@@ -460,10 +481,15 @@ const css = StyleSheet.create({
         height: 20,
         borderColor: "black",
         borderWidth: 1,
-        borderRadius: 50,   
-        borderColor: "#ffc0cb", 
+        borderRadius: 50,
+        borderColor: "#ffc0cb",
         marginLeft: 20,
         marginVertical: 5
+    },
+    botaovoltar: {
+        fontSize: 18,
+        color: 'blue',
+
     },
 
 })

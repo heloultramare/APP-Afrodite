@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Header from '../Components/Header';
 import Clube from '../Pages/Clube';
 import Agend1 from './Agend1';
+import { AuthContext } from '../Context/AuthContext';
 
 
-export default function Home(cor, borda) {
+export default function Home() {
 
   const [agend1, setAgend1] = useState(false);
-  const [clube, setClube] = useState(false);
+  const{clube, setClube} = useContext( AuthContext );
 
   if (agend1) {
     return (
@@ -19,7 +20,7 @@ export default function Home(cor, borda) {
 
   if (clube) {
     return (
-      <Clube setClube={setClube} />
+      <Clube />
     )
   }
 
