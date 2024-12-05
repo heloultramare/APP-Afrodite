@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function Clube() {
+export default function Clube({setClube}) {
 
     const { widthScreen } = Dimensions.get("screen").width;
     const { pagamento, setPagamento } = useState(false);
@@ -16,7 +16,7 @@ export default function Clube() {
     const [anual, setAnual] = useState(false);
     const [mensal, setMensal] = useState(false);
 
-    const [opcao, setOpcao ] = useState();
+        const [opcao, setOpcao ] = useState({ id: 0, opcao: "" });
 
     if (pagamento) {
         return (
@@ -26,7 +26,7 @@ export default function Clube() {
 
 
     async function getClubes() {
-        await fetch('http://10.133.22.34:5251/api/Clube/GetAllClube', {
+        await fetch('http://10.133.22.24:5251/api/Clube/GetAllClube', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -38,7 +38,7 @@ export default function Clube() {
     }
 
     async function getTiposClubes() {
-        await fetch('http://10.133.22.34:5251/api/TipoClube/GetAllTipoClube', {
+        await fetch('http://10.133.22.24:5251/api/TipoClube/GetAllTipoClube', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -189,8 +189,8 @@ export default function Clube() {
                                                 <View style={css.boxTipo}>
 
                                                     <Pressable
-                                                        style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
+                                                       style={[css.btnMensal,{ backgroundColor: ( opcao.id == item.clubeId && opcao.opcao == "Mensal" ) ? "#B34361" : "white" }]}
+                                                       onPress={() => setOpcao( { id: item.clubeId, opcao: "Mensal" } )}
                                                     />
                                                     <View style={css.caixatipo}>
                                                     <Text>Mensal</Text>
