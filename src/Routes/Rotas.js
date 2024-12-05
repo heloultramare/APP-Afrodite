@@ -9,12 +9,13 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Foto from '../Pages/Foto';
 import Cadastro from '../Pages/Cadastro';
+import Pagamento from '../Pages/Pagamento';
 
 const Tab = createBottomTabNavigator();
 
 export default function Rotas() {
 
-    const[logado, setLogado] = useState(false);
+    const[logado, setLogado] = useState(true);
     const[cadastro, setCadastro] = useState(false);
 
     if( !logado && !cadastro ) {
@@ -61,6 +62,15 @@ export default function Rotas() {
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="Pagamento"
+                    component={Pagamento}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="shopping" color={color} size={size} />
                         ),
                     }}
                 />
