@@ -14,6 +14,7 @@ import Cadastro from '../Pages/Cadastro';
 import Agend1 from '../Pages/Agend1';
 import Regras from '../Components/Regras';
 import Agend2 from '../Components/Agend2';
+import Pagamento from '../Pages/Pagamento';
 
 
 const Drawer = createDrawerNavigator();
@@ -52,6 +53,16 @@ export default function Rotas() {
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="home" color={color} size={size} />
+                        ),
+
+                    }}
+                />
+                 <Drawer.Screen
+                    name="Pagamento"
+                    component={Pagamento}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="pagamento" color={color} size={size} />
                         ),
 
                     }}
