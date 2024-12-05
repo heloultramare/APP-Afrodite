@@ -28,7 +28,7 @@ export default function Agend2() {
     const navigation = useNavigation();
 
     async function getProfissionais() {
-        await fetch('http://10.133.22.32:5251/api/Profissional/GetAllProfissional', {
+        await fetch('http://10.133.22.34:5251/api/Profissional/GetAllProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -42,7 +42,7 @@ export default function Agend2() {
     }
 
     async function getTipoProfissional() {
-        await fetch('http://10.133.22.32:5251/api/TipoProfissional/GetAllTipoProfissional', {
+        await fetch('http://10.133.22.34:5251/api/TipoProfissional/GetAllTipoProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
