@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet, Pressable, FlatList, Image } from '
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Regras from '../Components/Regras';
 import { AuthContext } from '../Context/AuthContext';
+import Agend2 from '../Components/Agend2';
 
 export default function Agend1() {
     const [Agend1, setAgend1] = useState(false);
@@ -14,19 +15,14 @@ export default function Agend1() {
     const [odonto, setOdonto] = useState([]);
     const [nutricao, setNutricao] = useState([]);
 
-    const {setProcedimento} = useContext( AuthContext );
+    const {setProcedimento, procedimento } = useContext( AuthContext );
 
-    if (regras) {
-        return (
-            <Regras setRegras={setRegras} />
-        )
-
-    }
+    
 
 
 
     async function getProcedimentos() {
-        await fetch('http://10.133.22.24:5251/api/Procedimento/GetAllProcedimento', {
+        await fetch('http://10.133.22.32:5251/api/Procedimento/GetAllProcedimento', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -68,6 +64,17 @@ export default function Agend1() {
     useEffect(() => {
         getProcedimentos();
     }, [])
+
+    if (regras) {
+        return (
+            <Regras setRegras={setRegras} />
+        )
+    }
+
+
+    if( procedimento ) {
+        return( <Agend2 />)
+    }
 
 
     return (
