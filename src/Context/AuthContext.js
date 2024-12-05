@@ -8,11 +8,13 @@ function AuthProvider({ children }) {
     const [ usuario, setUsuario ] = useState();
     const [procedimento, setProcedimento] = useState();
     const [clube, setClube ] = useState();
+    const [clubeSelecionado, setClubeSelecionado] = useState();
+    const [opcao, setOpcao] = useState({ id: 0, opcao: "", tipoClube: "" });
 
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
-            await fetch('http://10.133.22.24:5251/api/Cliente/Login', {
+            await fetch('http://10.133.22.34:5251/api/Cliente/Login', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -36,7 +38,7 @@ function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ logado: logado, Login, error: error, usuario: usuario, procedimento: procedimento, setProcedimento, setClube, clube: clube }}>
+        <AuthContext.Provider value={{ logado: logado, Login, error: error, usuario: usuario, procedimento: procedimento, setProcedimento, setClube, clube: clube, clubeSelecionado, setClubeSelecionado, opcao, setOpcao }}>
             {children}
         </AuthContext.Provider>
     )

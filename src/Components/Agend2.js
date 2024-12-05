@@ -39,7 +39,7 @@ export default function Agend2() {
     
 
     async function getProfissionais() {
-        await fetch('http://10.133.22.32:5251/api/Profissional/GetAllProfissional', {
+        await fetch('http://10.133.22.24:5251/api/Profissional/GetAllProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -53,7 +53,7 @@ export default function Agend2() {
     }
 
     async function getTipoProfissional() {
-        await fetch('http://10.133.22.32:5251/api/TipoProfissional/GetAllTipoProfissional', {
+        await fetch('http://10.133.22.24:5251/api/TipoProfissional/GetAllTipoProfissional', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -67,7 +67,7 @@ export default function Agend2() {
     }
 
     async function Agendar() {
-        await fetch('http://10.133.22.32:5251/api/Agendamento/CreateAgendamento', {
+        await fetch('http://10.133.22.24:5251/api/Agendamento/CreateAgendamento', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -124,6 +124,7 @@ export default function Agend2() {
                 <Image style={css.imagem} source={require("../../assets/agendeafrodite.png")} />
             </View>
             <View>
+                <Text style={css.setinha} onPress={() => setProcedimento(false)}>❮</Text>
                 <Text style={css.titulo}>AFRODITE LIFECARE</Text>
                 <Text style={css.texto}>Av. Brigadeiro Faria Lima, 280. São Paulo - SP</Text>
             </View>
@@ -206,6 +207,14 @@ const css = StyleSheet.create({
         width: "100%",
         height: 130,
         objectFit: "contain"
+    },
+    setinha: {
+        marginLeft: 30,
+        fontSize: 18,
+        top: 12,
+        color: "#B34361",
+        marginTop: 10,
+
     },
     titulo: {
         color: '#B34361',

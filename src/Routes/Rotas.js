@@ -67,15 +67,7 @@ export default function Rotas() {
 
                     }}
                 />
-                <Drawer.Screen
-                    name="Foto"
-                    component={Foto}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="camera" color={color} size={size} />
-                        ),
-                    }}
-                />
+                
 
                 <Drawer.Screen
                     name="Clube"
@@ -87,7 +79,7 @@ export default function Rotas() {
                     }}
                 />
                  <Drawer.Screen
-                    name="Agend1"
+                    name="Agendamento"
                     component={Agend1}
                     options={{
                         tabBarIcon: ({ color, size }) => (
@@ -104,15 +96,6 @@ export default function Rotas() {
                         },
                         title: "",
                         tabBarButton: (props) => null
-                    }}
-                />
-                <Drawer.Screen
-                    name="Agend2"
-                    component={Agend2}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="agend2" color={color} size={size} />
-                        ),
                     }}
                 />
             </Drawer.Navigator>

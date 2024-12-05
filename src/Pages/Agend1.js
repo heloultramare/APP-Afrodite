@@ -22,7 +22,7 @@ export default function Agend1() {
 
 
     async function getProcedimentos() {
-        await fetch('http://10.133.22.24:5251/api/Procedimento/GetAllProcedimento', {
+        await fetch('http://10.133.22.34:5251/api/Procedimento/GetAllProcedimento', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -75,7 +75,6 @@ export default function Agend1() {
     if( procedimento ) {
         return( <Agend2 />)
     }
-    
 
 
     return (
@@ -137,9 +136,10 @@ export default function Agend1() {
                         </View>
                     )
                 }
-                <View style={css.rodape}>
-                </View>
+                
             </View>
+            <View style={css.rodape}>
+                </View>
         </ScrollView>
     );
 }

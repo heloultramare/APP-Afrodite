@@ -1,24 +1,46 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import React from 'react'
 import { Alert, Button, Image, Pressable, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from "../Context/AuthContext";
 
 
-export default function Pagamento({ setPagamento, navigation }) {
+export default function Pagamento() {
+
+    const {clubeSelecionado, setClubeSelecionado, usuario, opcao } = useContext( AuthContext );
+    console.log( clubeSelecionado );
+    console.log( opcao );
 
     const [selectedPayment, setSelectedPayment] = useState(null);
 
     const handlePaymentSelect = (paymentType) => {
         setSelectedPayment(paymentType); // Altera o estado para o tipo de pagamento selecionado
     };
+
+    async function Pagamento() {
+        await fetch('http://10.133.22.34:5251/api/AssinaturaClube/CreateAssinaturaClube', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                clienteId: usuario.clienteId,
+                clubeId: clubeSelecionado.clubeId
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log( json );
+                Alert.alert( "Pagamento realizado" );
+                setClubeSelecionado( null );
+            })
+            .catch(err => console.log(err))
+    }
     
-
-    
-
-
+ 
     return (
         <ScrollView contentContainerStyle={css.container}>
-            <TouchableOpacity onPress={() => setPagamento(false)}>
+            <TouchableOpacity onPress={() => setClubeSelecionado(false)}>
                 <Icon style={css.icones} name="chevron-left" size={23} color="black" />
             </TouchableOpacity>
             <Text style={css.title2}>AGENDA NA</Text>
@@ -26,41 +48,32 @@ export default function Pagamento({ setPagamento, navigation }) {
             <View style={css.boxInfo}>
                 <Text style={css.boxInfoText}>Nome completo:</Text>
                 <View style={css.btn}>
-                    <TextInput
-                        style={css.inputs} />
+                    <Text>{usuario.nomeCliente}</Text>
                 </View>
                 <Text style={css.boxInfoText}>Telefone:</Text>
                 <View style={css.btn}>
-                    <TextInput
-                        keyboardType='numeric'
-                        style={css.inputs}
-                    />
+                    <Text>{usuario.telCliente}</Text>
                 </View>
 
                 <Text style={css.boxInfoText}>Cpf:</Text>
                 <View style={css.btn}>
-                    <TextInput
-                        keyboardType='numeric'
-                        style={css.inputs}
-                    />
+                    <Text>{usuario.cpfCliente}</Text>
                 </View>
             </View>
 
             <View style={css.boxRosa}>
                 <View style={css.row}>
                     <View style={{ width: "50%", height: "100%" }}>
-                        <Text style={css.escuro}>Clube ODONTO</Text>
+                        <Text style={css.escuro}>{opcao.tipoClube}</Text>
                     </View>
                     <View style={{ width: "50%", alignItems: "flex-end" }}>
-                        <Text style={css.escuro}>R$190,00 por mês</Text>
-                        <Text>Clube | Anual</Text>
+                        <Text style={css.escuro}>R${clubeSelecionado.valorClube}</Text>
+                        <Text>Clube | {opcao.opcao}</Text>
                     </View>
                 </View>
                 <View style={css.linha}></View>
                 <View style={css.row}>
-                    <Text style={css.escuro3}>COMBO: </Text>
-                    <Image />
-                    <Text>Combo Maçã de Ouro</Text>
+                    <Text style={css.escuro3}>{clubeSelecionado.nomeClube}</Text>
                 </View>
             </View>
             <View style={css.formapagamento}>
@@ -134,7 +147,7 @@ export default function Pagamento({ setPagamento, navigation }) {
                         style={css.botaofinalizar}
                         title="FINALIZAR"
                         color="#ffc0cd"
-                        onPress={() => navigation.navigate("HOME")}
+                        onPress={() => Pagamento() }
                     >
                         <Text style={css.titulofinalizar}>FINALIZAR</Text>
                     </Pressable>
