@@ -4,8 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Perfil from '../Pages/Perfil';
 
-export default function Header({ texto, cor }) {
-
 
 export default function Header({ texto, cor }) {
 
