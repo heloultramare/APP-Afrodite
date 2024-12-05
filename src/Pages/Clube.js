@@ -29,6 +29,7 @@ export default function Clube() {
     
     async function getClubes() {
         await fetch('http://10.133.22.34:5251/api/Clube/GetAllClube', {
+        await fetch('http://10.133.22.24:5251/api/Clube/GetAllClube', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -41,6 +42,7 @@ export default function Clube() {
 
     async function getTiposClubes() {
         await fetch('http://10.133.22.34:5251/api/TipoClube/GetAllTipoClube', {
+        await fetch('http://10.133.22.24:5251/api/TipoClube/GetAllTipoClube', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
