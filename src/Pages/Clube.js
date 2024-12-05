@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AuthContext } from '../Context/AuthContext';
+import Pagamento from './Pagamento';
 
 export default function Clube() {
 
     const{clube, setClube} = useContext( AuthContext );
 
     const { widthScreen } = Dimensions.get("screen").width;
-    const [ pagamento, setPagamento ] = useState(false);
+   
+    const{pagamento, setPagamento, setClubeSelecionado, clubeSelecionado, opcao, setOpcao } = useContext( AuthContext );
+    
     
 
     const [clubes, setClubes] = useState();
@@ -21,15 +24,9 @@ export default function Clube() {
     const [anual, setAnual] = useState(false);
     const [mensal, setMensal] = useState(false);
 
-    const [opcao, setOpcao] = useState({ id: 0, opcao: "" });
-
-    if (pagamento) {
-        return (
-            <pagamento setPagamento={setPagamento} />
-        )
-    }
     
 
+    
     async function getClubes() {
         await fetch('http://10.133.22.34:5251/api/Clube/GetAllClube', {
             method: 'GET',
@@ -81,6 +78,11 @@ export default function Clube() {
             })
         }
     }, [tiposClube, clubes]);
+
+
+    if( clubeSelecionado ) {
+        return( <Pagamento />)
+    }
 
     return (
         <ScrollView style={css.scrollviewClube}>
@@ -140,7 +142,7 @@ export default function Clube() {
                                                 <View style={css.boxTipo}>
                                                     <Pressable
                                                         style={[css.btnAnual, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Anual") ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual" })}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual" , tipoClube: "ESTÉTICA" })}
                                                     />
                                                     <View style={css.caixatipo}>
                                                         <Text>Anual</Text>
@@ -162,7 +164,7 @@ export default function Clube() {
                                                 <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
                                                 <View>
 
-                                                    <Pressable style={css.botaocomprar} onPress={() => setPagamento(false)}>
+                                                    <Pressable style={css.botaocomprar} onPress={() => { setClubeSelecionado( item ); } }>
                                                         <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
                                                     </Pressable>
                                                 </View>
@@ -192,7 +194,7 @@ export default function Clube() {
                                                 <View style={css.boxTipo}>
                                                     <Pressable
                                                         style={[css.btnAnual, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Anual") ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual" })}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual", tipoClube: "ODONTO" })}
                                                     />
                                                     <View style={css.caixatipo}>
                                                         <Text>Anual</Text>
@@ -213,7 +215,7 @@ export default function Clube() {
                                                 </View>
                                                 <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
                                                 <View>
-                                                <Pressable style={css.botaocomprar} onPress={() => setPagamento(false)}>
+                                                <Pressable style={css.botaocomprar} onPress={() => { setClubeSelecionado( item ); }}>
                                                         <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
                                                     </Pressable>
                                                 </View>
@@ -244,7 +246,7 @@ export default function Clube() {
                                                 <View style={css.boxTipo}>
                                                     <Pressable
                                                         style={[css.btnAnual, { backgroundColor: (opcao.id == item.clubeId && opcao.opcao == "Anual") ? "#B34361" : "white" }]}
-                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual" })}
+                                                        onPress={() => setOpcao({ id: item.clubeId, opcao: "Anual", tipoClube: "NUTRI" })}
                                                     />
                                                     <View style={css.caixatipo}>
                                                         <Text>Anual</Text>
@@ -265,7 +267,7 @@ export default function Clube() {
                                                 </View>
                                                 <Text style={css.textDetalhes}>{item.detalhesClube}</Text>
                                                 <View>
-                                                <Pressable style={css.botaocomprar} onPress={() => setPagamento(false)}>
+                                                <Pressable style={css.botaocomprar} onPress={() => { setClubeSelecionado( item ); }}>
                                                         <Text style={css.textoBotaoComprar}>COMPRAR COMBO</Text>
                                                     </Pressable>
                                                 </View>
